@@ -35,7 +35,12 @@ namespace OneScriptDocumenter
             {
                 var data = args.Name.Split(',');
                 var filename = Path.Combine(_baseDirectory, data[0] + ".dll");
-                return Assembly.ReflectionOnlyLoadFrom(filename);
+                if (System.IO.File.Exists(filename))
+                {
+                    return Assembly.ReflectionOnlyLoadFrom(filename);
+                }
+
+                return null;
             };
 
             _classAttributeType = scriptEngineLib.GetType("ScriptEngine.Machine.Contexts.ContextClassAttribute", true);
